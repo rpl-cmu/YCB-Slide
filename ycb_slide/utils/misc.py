@@ -6,18 +6,20 @@ import numpy as np
 import open3d as o3d
 import pyvista as pv
 from scipy.spatial.transform import Rotation as R
-import dill as pickle 
+import dill as pickle
 from .optitrack import clean_up_optitrack
 import matplotlib.pyplot as plt
 
+
 def tf2positionquat(pose):
     pose = np.atleast_3d(pose)
-    pose = np.rollaxis(pose,2) # (4, 4, N) --> (N, 4, 4)
+    pose = np.rollaxis(pose, 2)  # (4, 4, N) --> (N, 4, 4)
     # convert 4 x 4 transformation matrix to [x, y, z, qx, qy, qz, qw]
-    r = R.from_matrix(np.array(pose[:, 0:3,0:3]))
-    q = r.as_quat() # qx, qy, qz, qw
-    t = pose[:, 0:3,3]
-    return np.concatenate((t, q), axis=1) # (N, 7)
+    r = R.from_matrix(np.array(pose[:, 0:3, 0:3]))
+    q = r.as_quat()  # qx, qy, qz, qw
+    t = pose[:, 0:3, 3]
+    return np.concatenate((t, q), axis=1)  # (N, 7)
+
 
 def positionquat2tf(position_quat):
     try:
@@ -25,12 +27,15 @@ def positionquat2tf(position_quat):
         # position_quat : N x 7
         N = position_quat.shape[0]
         T = np.zeros((4, 4, N))
-        T[0:3, 0:3, :] = np.moveaxis(R.from_quat(position_quat[:, 3:]).as_matrix(), 0, -1)
-        T[0:3,3, :] = position_quat[:, :3].T
+        T[0:3, 0:3, :] = np.moveaxis(
+            R.from_quat(position_quat[:, 3:]).as_matrix(), 0, -1
+        )
+        T[0:3, 3, :] = position_quat[:, :3].T
         T[3, 3, :] = 1
     except ValueError:
         print("Zero quat error!")
     return T.squeeze() if N == 1 else T
+
 
 def find_nearest(array, value):
     """
@@ -148,15 +153,20 @@ def pick_points(mesh_path):
     vis.destroy_window()
     return np.asarray(pcd.points)[vis.get_picked_points(), :]
 
+
 def pose2quiver(poses, sz):
-    '''
-        Convert pose to quiver object (RGB)
-    '''
+    """
+    Convert pose to quiver object (RGB)
+    """
     poses = np.atleast_3d(poses)
-    quivers = pv.PolyData(poses[:, :3, 3]) # (N, 3) [x, y, z]
+    quivers = pv.PolyData(poses[:, :3, 3])  # (N, 3) [x, y, z]
     x, y, z = np.array([1, 0, 0]), np.array([0, 1, 0]), np.array([0, 0, 1])
-    r = R.from_matrix(poses[:, 0:3,0:3])
-    quivers["xvectors"], quivers["yvectors"], quivers["zvectors"]  = r.apply(x)*sz, r.apply(y)*sz, r.apply(z)*sz
+    r = R.from_matrix(poses[:, 0:3, 0:3])
+    quivers["xvectors"], quivers["yvectors"], quivers["zvectors"] = (
+        r.apply(x) * sz,
+        r.apply(y) * sz,
+        r.apply(z) * sz,
+    )
     return quivers
 
 
@@ -185,12 +195,13 @@ def draw_poses(
             name=n,
         )
 
+
 def viz_poses_pointclouds_on_mesh(
     mesh_path, poses, pointclouds, save_path=None, decimation_factor=5
 ):
-    '''
+    """
     Visualize poses on the ground-truth mesh model
-    '''
+    """
     if type(pointclouds) is not list:
         temp = pointclouds
         pointclouds = [None] * 1
@@ -246,37 +257,45 @@ def viz_poses_pointclouds_on_mesh(
     plotter.close()
     pv.close_all()
 
+
 def cam2gel(cam_pose, cam_dist):
-    '''
-        Convert cam_pose to gel_pose
-    '''
+    """
+    Convert cam_pose to gel_pose
+    """
     cam_tf = np.eye(4)
     cam_tf[2, 3] = -cam_dist
     return cam_pose @ cam_tf[None, :]
 
+
 def process_sim_poses(pickle_file):
-    '''
+    """
     Convert raw sim data to (N, 4, 4) transformations in object-centric frame
-    '''
-    with open(pickle_file, 'rb') as p:
+    """
+    with open(pickle_file, "rb") as p:
         poses = pickle.load(p)
-    camposes, gelposes, gelposes_meas = poses["camposes"], poses["gelposes"], poses["gelposes_meas"]
+    camposes, gelposes, gelposes_meas = (
+        poses["camposes"],
+        poses["gelposes"],
+        poses["gelposes_meas"],
+    )
     digit_poses = positionquat2tf(gelposes_meas)
     digit_poses = np.rollaxis(digit_poses, 2)
     return digit_poses
 
+
 def process_real_poses(npy_file, alignment_file, object_name):
-    '''
+    """
     Convert raw real data to (N, 4, 4) transformations in object-centric frame
-    '''
+    """
     digit_data = np.load(npy_file, allow_pickle=True).item()
 
     digit_poses = digit_data["poses"]["DIGIT"]
     obj_poses = digit_data["poses"][object_name]
     digit_poses, obj_poses = positionquat2tf(digit_poses), positionquat2tf(obj_poses)
     digit_poses, obj_poses = np.rollaxis(digit_poses, 2), np.rollaxis(
-        obj_poses, 2)  # (4, 4, N) --> (N, 4, 4)
-    
+        obj_poses, 2
+    )  # (4, 4, N) --> (N, 4, 4)
+
     digit_poses = np.linalg.inv(obj_poses) @ digit_poses  # relative to object
     digit_poses = clean_up_optitrack(digit_poses)  # remove jumps
     digit_poses = cam2gel(digit_poses, cam_dist=0.022)  # convert to contact poses

@@ -17,6 +17,7 @@ import argparse
 from PIL import Image
 import matplotlib.pyplot as plt
 
+
 def visualize_tactile(data_path, object_name, real):
     dname = osp.dirname(osp.abspath(__file__))
     os.chdir(dname)
@@ -45,7 +46,9 @@ def visualize_tactile(data_path, object_name, real):
 
         # load images and ground truth depthmaps
         images = sorted(os.listdir(image_path), key=lambda y: int(y.split(".")[0]))
-        heightmaps = sorted(os.listdir(heightmap_path), key=lambda y: int(y.split(".")[0]))
+        heightmaps = sorted(
+            os.listdir(heightmap_path), key=lambda y: int(y.split(".")[0])
+        )
         contact_masks = sorted(
             os.listdir(contactmask_path), key=lambda y: int(y.split(".")[0])
         )
@@ -75,7 +78,7 @@ def visualize_tactile(data_path, object_name, real):
             ax.clear()
             ax.imshow(viz_data[j])
             ax.axis("off")
-            ax.set_title(f'{label} {i}' )
+            ax.set_title(f"{label} {i}")
         plt.pause(0.05)
         plt.show()
 

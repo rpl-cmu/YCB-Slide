@@ -1,4 +1,3 @@
-
 # Copyright (c) 2022 Carnegie Mellon University <suddhu@cmu.edu>
 # This code is licensed under MIT license (see LICENSE.txt for details)
 
@@ -14,6 +13,7 @@ from utils.misc import cam2gel, viz_poses_pointclouds_on_mesh, positionquat2tf
 from utils.optitrack import clean_up_optitrack
 import argparse
 import open3d as o3d
+
 
 def align_data(source_cloud, target_mesh, N=5000):
     source_cloud = np.vstack(source_cloud)
@@ -50,6 +50,7 @@ def align_data(source_cloud, target_mesh, N=5000):
 
     return trans_init
 
+
 def pick_alignment_points(source, target):
     print("")
     print("1) Please pick at least three correspondences using [shift + left click]")
@@ -70,6 +71,7 @@ def pick_alignment_points(source, target):
     print("")
     return vis.get_picked_points()
 
+
 def align_data(data_path, object_name):
     dname = osp.dirname(osp.abspath(__file__))
     os.chdir(dname)
@@ -80,7 +82,7 @@ def align_data(data_path, object_name):
     all_datasets = sorted(os.listdir(data_path))
 
     all_pointclouds_w = []
-    all_digit_poses =  np.empty((0, 4, 4))
+    all_digit_poses = np.empty((0, 4, 4))
     for dataset in all_datasets:
         if dataset == "bg" or not osp.isdir(osp.join(data_path, dataset)):
             continue
@@ -95,12 +97,16 @@ def align_data(data_path, object_name):
 
         digit_poses = digit_data["poses"]["DIGIT"]
         obj_poses = digit_data["poses"][object_name]
-        digit_poses, obj_poses = positionquat2tf(digit_poses), positionquat2tf(obj_poses)
-        digit_poses, obj_poses = np.rollaxis(digit_poses,2), np.rollaxis(obj_poses,2) # (4, 4, N) --> (N, 4, 4)
+        digit_poses, obj_poses = positionquat2tf(digit_poses), positionquat2tf(
+            obj_poses
+        )
+        digit_poses, obj_poses = np.rollaxis(digit_poses, 2), np.rollaxis(
+            obj_poses, 2
+        )  # (4, 4, N) --> (N, 4, 4)
 
         digit_poses = np.linalg.inv(obj_poses) @ digit_poses  # relative to object
-        digit_poses = clean_up_optitrack(digit_poses) # remove jumps
-        digit_poses = cam2gel(digit_poses, cam_dist = 0.022) # convert to contact poses
+        digit_poses = clean_up_optitrack(digit_poses)  # remove jumps
+        digit_poses = cam2gel(digit_poses, cam_dist=0.022)  # convert to contact poses
 
         pointclouds_w = digit_poses[:, :3, 3]
         all_pointclouds_w += [pointclouds_w]
@@ -109,9 +115,7 @@ def align_data(data_path, object_name):
     # align manually
     alignment_file = osp.join(data_path, "alignment.npy")
     if not osp.exists(alignment_file):
-        alignment = align_data(
-            source_cloud=all_pointclouds_w, target_mesh=obj_path
-        )
+        alignment = align_data(source_cloud=all_pointclouds_w, target_mesh=obj_path)
         np.save(alignment_file, alignment)
     else:
         reply = (
@@ -122,18 +126,16 @@ def align_data(data_path, object_name):
             .strip()
         )
         if reply[0] == "y":
-            alignment = align_data(
-                source_cloud=all_pointclouds_w, target_mesh=obj_path
-            )
+            alignment = align_data(source_cloud=all_pointclouds_w, target_mesh=obj_path)
             np.save(alignment_file, alignment)
         else:
             alignment = np.load(alignment_file)
 
-    # Adjust only translation of poses 
+    # Adjust only translation of poses
     pose = np.eye(4)
     pose = np.repeat(pose[None, :], all_digit_poses.shape[0], axis=0)
     pose[:, :3, 3] = all_digit_poses[:, :3, 3]
-    pose  = pose @ alignment[None, :] 
+    pose = pose @ alignment[None, :]
     all_digit_poses[:, :3, 3] = pose[:, :3, 3]
 
     print("Visualizing alignment results")
@@ -144,6 +146,7 @@ def align_data(data_path, object_name):
         save_path=osp.join(data_path, "tactile_data"),
         decimation_factor=None,
     )
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Align synced optitrack + digit data")

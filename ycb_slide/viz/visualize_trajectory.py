@@ -20,6 +20,7 @@ from ycb_slide.utils.misc import (
 )
 import argparse
 
+
 def visualize_trajectory(data_path, object_name, real):
     dname = osp.dirname(osp.abspath(__file__))
     os.chdir(dname)
@@ -68,4 +69,6 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    visualize_trajectory(data_path=args.data_path, object_name=args.object, real=args.real)
+    visualize_trajectory(
+        data_path=args.data_path, object_name=args.object, real=args.real
+    )

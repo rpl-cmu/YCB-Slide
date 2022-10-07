@@ -1,4 +1,3 @@
-
 # Copyright (c) 2022 Carnegie Mellon University <suddhu@cmu.edu>
 # This code is licensed under MIT license (see LICENSE.txt for details)
 
@@ -31,10 +30,11 @@ def parse_optitrack_csv(csvFile: str, bodies: list, markers: bool = False):
 
     return {"metadata": meta, "poses": body_poses}
 
+
 def clean_up_optitrack(poses):
-    '''
-        Filter large jumps in mocap data
-    '''
+    """
+    Filter large jumps in mocap data
+    """
     traj_sz = poses.shape[0]
     diff_pose_mags = []
     adjusted_count = 0
@@ -47,13 +47,16 @@ def clean_up_optitrack(poses):
             avg_diff_pose_mag = sum(diff_pose_mags) / len(diff_pose_mags)
             if i > 1 and diff_pose_mag > 10 * avg_diff_pose_mag:
                 adjusted_count += 1
-            else: 
-                filtered_poses = np.concatenate((filtered_poses, poses[i, :][None, :]), axis=0)
+            else:
+                filtered_poses = np.concatenate(
+                    (filtered_poses, poses[i, :][None, :]), axis=0
+                )
                 # print(f"Jump @ t = {i} : avg: {avg_diff_pose_mag}, curr: {diff_pose_mag}")
                 # poses[i, :] = tf_to_xyzquat(xyzquat_to_tf(poses[i - 1, :]) @ xyzquat_to_tf(prev_diff_pose))
             # prev_diff_pose = diff_pose
     print(f"Adjusted {adjusted_count} / {traj_sz} object-sensor poses")
     return filtered_poses
+
 
 def pose_to_axes(quaternions: np.ndarray):
     """

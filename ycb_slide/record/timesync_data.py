@@ -1,4 +1,3 @@
-
 # Copyright (c) 2022 Carnegie Mellon University <suddhu@cmu.edu>
 # This code is licensed under MIT license (see LICENSE.txt for details)
 
@@ -12,6 +11,7 @@ import argparse
 from ycb_slide.utils.optitrack import parse_optitrack_csv, plot_optitrack_poses
 from ycb_slide.utils.misc import sync_optitrack_digit
 import numpy as np
+
 
 def timesync_data(digit_file: str, tracking_file: str, bodies: list):
     digit_data = np.load(
