@@ -5,17 +5,22 @@
 [cc-by-sa]: http://creativecommons.org/licenses/by-sa/4.0/
 [cc-by-sa-shield]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg
 
+<div align="center">
+ <img src="media/ycb_slide.gif " height="250" alt="ycb_slide"> 
+</div>
+
+The YCB-Slide dataset comprises of [DIGIT](https://digit.ml/) sliding interactions on [YCB](https://www.ycbbenchmarks.com) objects. We envision this can contribute towards efforts in tactile localization, mapping, object understanding, and learning dynamics models. We provide access to DIGIT images, sensor poses, RGB video feed, ground-truth mesh models, and ground-truth heightmaps + contact masks (simulation only). This dataset is supplementary to the [MidasTouch paper](https://openreview.net/forum?id=JWROnOf4w-K), a [CoRL 2022](https://corl2022.org/) submission. 
 
 ![ycb_slide](media/ycb_slide.png)
 
-The YCB-Slide dataset comprises of [DIGIT](https://digit.ml/) sliding interactions on 10 [YCB](https://www.ycbbenchmarks.com) objects. We envision this can contribute towards efforts in tactile localization, mapping, object understanding, and learning dynamics models. We provide access to DIGIT images, sensor poses, RGB video feed, ground-truth mesh models, and ground-truth heightmaps + contact masks (simulation only). This dataset is supplementary to the [MidasTouch paper](https://openreview.net/forum?id=JWROnOf4w-K), a [CoRL 2022](https://corl2022.org/) submission. 
-
-
-## Getting started: dataset
+---
+## Getting started: **Dataset**
 
 The recommended way to download the YCB-Slide is through `download_dataset.sh` (before you do, please run `pip install gdown`). Or, you could download object-specific data here:
 
-## Getting started
+--- 
+
+## Getting started: **Code**
 
 ### Setup the environment
 
@@ -59,7 +64,9 @@ python timesync_digit.py --digit_file dataset/real/035_power_drill/dataset_0/dig
 python align_data.py --data_path dataset/real/035_power_drill --object 035_power_drill # manually alignment fine-tuning
 ```
 
-## Dataset details 
+---
+
+## Dataset details
 
 **YCB objects**: We select 10 YCB objects with diverse geometries in our tests: sugar_box, tomato_soup_can,
 mustard_bottle, bleach_cleanser, mug, power_drill, scissors, adjustable_wrench, hammer, and baseball. You can download the ground-truth meshes [here](https://drive.google.com/file/d/1pAQXSQ3K_mLSegFFHuRg2TvyMIf5wX0d/view?usp=sharing). 
@@ -83,20 +90,16 @@ Representative experiments            |  All 50 trajectories
 
 <div align="center">
 
-| Object  | Sim data | Real data |
-| -- | -- |  -- |
-| 004_sugar_box |  [[100.6 MB]](https://drive.google.com/file/d/1UBzs2FqRv4AfWJdETJbCtSLaod6UpxCU/view?usp=sharing) | [[321.9 MB]](https://drive.google.com/file/d/1lgvUTAwj767dKUwIiEqlIpbkjvrfVVFq/view?usp=sharing) |
-| 005_tomato_soup_can |  [[147.9 MB ]](https://drive.google.com/file/d/1F1EAovRyfajZxn5dcvB3H2dL1Lz7kAX2/view?usp=sharing) | [[327.4 MB]](https://drive.google.com/file/d/1LWdR6MSY4upcdzV3keOyQt4YMOrMa2Cy/view?usp=sharing) |
-| 006_mustard_bottle |   [[102.7 MB]](https://drive.google.com/file/d/1rgxy-eHYxVaxjmP47FYPOUMTo9buIkCZ/view?usp=sharing) | [[319.4 MB]](https://drive.google.com/file/d/10XQDN7hqMTly7x2AClYf1ewfvaEnBpTg/view?usp=sharing) |
-| 021_bleach_cleanser |   [[86.5 MB]](https://drive.google.com/file/d/1VOkQJdIlF0FMxIQIu2bLAxnSpTX7aStA/view?usp=sharing) | [[318.5 MB]](https://drive.google.com/file/d/1ATcCN2GghbrKS1d_7fQ6Zmjcexfy74XL/view?usp=sharing) |
-| 025_mug |   [[107 MB]](https://drive.google.com/file/d/10h5ur3scGTbGCPd_7RrvgW_dGJh__911/view?usp=sharing) | [[325.5 MB]](https://drive.google.com/file/d/11_jJwjtAPLMK-vLDrJxaguaWj8D6L0iH/view?usp=sharing) |
-| 035_power_drill |   [[111.3 MB]](https://drive.google.com/file/d/1speBNOyUCGMEHY1uq4LORuHzwOfKC_iA/view?usp=sharing) | [[339.1 MB]](https://drive.google.com/file/d/1YMcHvKpJhqHdB6NHLJ88wto-W9XlMhMo/view?usp=sharing) |
-| 037_scissors |    [[109 MB]](https://drive.google.com/file/d/1zTcAt0c_JVQz2leRi75sopIO66oTQm4P/view?usp=sharing) | [[320 MB]](https://drive.google.com/file/d/1gyeAAwicGcf3LTmXUitOlJsDqgrrtK9n/view?usp=sharing) |
-| 042_adjustable_wrench |  [[147.7 MB]](https://drive.google.com/file/d/1zTcAt0c_JVQz2leRi75sopIO66oTQm4P/view?usp=sharing) | [[326.9 MB]](https://drive.google.com/file/d/1-4u2oReKdOUAr5p2CkNFSDiI6XQT1WFw/view?usp=sharing) |
-| 048_hammer |    [[102 MB]](https://drive.google.com/file/d/14qy3dicUHd50qYeGgueoHy9yFDjSxvfF/view?usp=sharing) | [[320.9 MB]](https://drive.google.com/file/d/10N-Q90Q3k2_gYL-Wd0Q5U1jnjpIpBiA3/view?usp=sharing) |
-| 055_baseball |    [[153.4 MB]](https://drive.google.com/file/d/1SwXLk43HDTl0fgN8P89g_QMFnKpIqBZG/view?usp=sharing) | [[331.1 MB]](https://drive.google.com/file/d/10JXm9nxxodKe5qzoRHOmvkWd6y1DoNlY/view?usp=sharing) |
-
+| Object  | Sim data | Real data | Object  | Sim data | Real data |
+| -- | -- |  -- | -- | -- |  -- |
+| 004_sugar_box |  [[100.6 MB]](https://drive.google.com/file/d/1UBzs2FqRv4AfWJdETJbCtSLaod6UpxCU/view?usp=sharing) | [[321.9 MB]](https://drive.google.com/file/d/1lgvUTAwj767dKUwIiEqlIpbkjvrfVVFq/view?usp=sharing) | 035_power_drill |   [[111.3 MB]](https://drive.google.com/file/d/1speBNOyUCGMEHY1uq4LORuHzwOfKC_iA/view?usp=sharing) | [[339.1 MB]](https://drive.google.com/file/d/1YMcHvKpJhqHdB6NHLJ88wto-W9XlMhMo/view?usp=sharing) |
+| 005_tomato_soup_can |  [[147.9 MB ]](https://drive.google.com/file/d/1F1EAovRyfajZxn5dcvB3H2dL1Lz7kAX2/view?usp=sharing) | [[327.4 MB]](https://drive.google.com/file/d/1LWdR6MSY4upcdzV3keOyQt4YMOrMa2Cy/view?usp=sharing) | 037_scissors |    [[109 MB]](https://drive.google.com/file/d/1zTcAt0c_JVQz2leRi75sopIO66oTQm4P/view?usp=sharing) | [[320 MB]](https://drive.google.com/file/d/1gyeAAwicGcf3LTmXUitOlJsDqgrrtK9n/view?usp=sharing) |
+| 006_mustard_bottle |   [[102.7 MB]](https://drive.google.com/file/d/1rgxy-eHYxVaxjmP47FYPOUMTo9buIkCZ/view?usp=sharing) | [[319.4 MB]](https://drive.google.com/file/d/10XQDN7hqMTly7x2AClYf1ewfvaEnBpTg/view?usp=sharing) | 042_adjustable_wrench |  [[147.7 MB]](https://drive.google.com/file/d/1zTcAt0c_JVQz2leRi75sopIO66oTQm4P/view?usp=sharing) | [[326.9 MB]](https://drive.google.com/file/d/1-4u2oReKdOUAr5p2CkNFSDiI6XQT1WFw/view?usp=sharing) |
+| 021_bleach_cleanser |   [[86.5 MB]](https://drive.google.com/file/d/1VOkQJdIlF0FMxIQIu2bLAxnSpTX7aStA/view?usp=sharing) | [[318.5 MB]](https://drive.google.com/file/d/1ATcCN2GghbrKS1d_7fQ6Zmjcexfy74XL/view?usp=sharing) | 048_hammer |    [[102 MB]](https://drive.google.com/file/d/14qy3dicUHd50qYeGgueoHy9yFDjSxvfF/view?usp=sharing) | [[320.9 MB]](https://drive.google.com/file/d/10N-Q90Q3k2_gYL-Wd0Q5U1jnjpIpBiA3/view?usp=sharing) |
+| 025_mug |   [[107 MB]](https://drive.google.com/file/d/10h5ur3scGTbGCPd_7RrvgW_dGJh__911/view?usp=sharing) | [[325.5 MB]](https://drive.google.com/file/d/11_jJwjtAPLMK-vLDrJxaguaWj8D6L0iH/view?usp=sharing) | 055_baseball |    [[153.4 MB]](https://drive.google.com/file/d/1SwXLk43HDTl0fgN8P89g_QMFnKpIqBZG/view?usp=sharing) | [[331.1 MB]](https://drive.google.com/file/d/10JXm9nxxodKe5qzoRHOmvkWd6y1DoNlY/view?usp=sharing) |
 </div>
+
+---
 
 ## Data directory format
 
@@ -150,9 +153,13 @@ real
 └── ...
 ```
 
+---
+
 ## License
 This dataset is licensed under a
 [Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa], with the accompanying code licensed under the [MIT License](https://opensource.org/licenses/MIT). 
+
+---
 
 ## Citation
 If you use YCB-Slide dataset in your research, please cite:
