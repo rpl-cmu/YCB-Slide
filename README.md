@@ -166,10 +166,10 @@ If you use YCB-Slide dataset in your research, please cite:
 ```BibTeX
 @inproceedings{suresh2022midastouch,
     title={{M}idas{T}ouch: {M}onte-{C}arlo inference over distributions across sliding touch},
-    author={Sudharshan Suresh, Zilin Si, Stuart Anderson, Michael Kaess, and Mustafa Mukadam},
+    author={Suresh, Sudharshan and Si, Zilin and Anderson, Stuart and Kaess, Michael and Mukadam, Mustafa},
     booktitle = {Proc. Conf. on Robot Learning, CoRL},
     address = {Auckland, NZ},
     month = dec,
-    year = {2022, to appear}
+    year = {2022}
 }
 ```
