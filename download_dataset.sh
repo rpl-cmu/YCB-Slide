@@ -11,13 +11,13 @@ gdown https://drive.google.com/drive/folders/1kYjONLAHRA_j4d2X0Enl-zHBIJFmG7Hc?u
 echo "Downloading YCB ground-truth models"
 gdown --fuzzy https://drive.google.com/file/d/1pAQXSQ3K_mLSegFFHuRg2TvyMIf5wX0d/view?usp=sharing
 cd sim
-for i in */; do unzip "${i%/}.zip"; done
+for i in */; do unzip -q "${i%/}.zip"; done
 rm *.zip
 cd ../real/
-for i in */; do unzip "${i%/}.zip"; done
+for i in */; do unzip -q "${i%/}.zip"; done
 rm *.zip
 cd ..
-unzip obj_models.zip
+unzip -q obj_models.zip
 rm obj_models.zip
 cd ..
 echo "Done!"
