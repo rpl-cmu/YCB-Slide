@@ -156,8 +156,7 @@ real
 ---
 
 ## License
-This dataset is licensed under a
-[Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa], with the accompanying code licensed under the [MIT License](https://opensource.org/licenses/MIT). 
+This dataset is licensed under the [MIT License](https://opensource.org/licenses/MIT). 
 
 ---
 
