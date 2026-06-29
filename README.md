@@ -66,6 +66,26 @@ python align_data.py --data_path dataset/real/035_power_drill --object 035_power
 
 ---
 
+## Export to TLabel format
+
+[TLabel](https://github.com/liu-luo/tlabel) is an open tactile annotation standard for cross-dataset interoperability. You can convert YCB-Slide data to TLabel format for use with any TLabel-compatible tool:
+
+```bash
+# Convert all real-world data
+python -m ycb_slide.export.tlabel_converter --data_path dataset/real --split real
+
+# Convert a specific object
+python -m ycb_slide.export.tlabel_converter --data_path dataset/real --split real --object 035_power_drill
+
+# Convert simulated data (requires dill)
+python -m ycb_slide.export.tlabel_converter --data_path dataset/sim --split sim
+
+# Convert both splits
+python -m ycb_slide.export.tlabel_converter --data_path dataset --split all
+```
+
+This produces `.tlabel.json` files with standardized sensor profiles, per-frame image paths, poses (position + quaternion), and metadata.
+
 ## Dataset details
 
 **YCB objects**: We select 10 YCB objects with diverse geometries in our tests: sugar_box, tomato_soup_can,
